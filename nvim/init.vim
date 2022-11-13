@@ -1,4 +1,6 @@
-set nocompatible            " disable compatibility to old-time vi
+lua require('plugins')
+
+"set nocompatible            " disable compatibility to old-time vi
 set showmatch               " show matching 
 set ignorecase              " case insensitive 
 set hlsearch                " highlight search 
@@ -10,8 +12,8 @@ set shiftwidth=4            " width for autoindents
 set autoindent              " indent a new line the same amount as the line just typed
 set number                  " add line numbers
 set relativenumber
-set wildmode=longest,list   " get bash-like tab completions
-set cc=60                  " set an 80 column border for good coding style
+"set wildmode=longest,list   " get bash-like tab completions
+set cc=80                  " set an 80 column border for good coding style
 filetype plugin indent on   "allow auto-indenting depending on file type
 syntax on                   " syntax highlighting
 set mouse=a                 " enable mouse click
@@ -23,21 +25,21 @@ set ttyfast                 " Speed up scrolling in Vim
 " set noswapfile            " disable creating swap file
 " set backupdir=~/.cache/vim " Directory to store backup files.
 
-lua require('plugins')
-
 call plug#begin("~/.vim/plugged")
  " Plugin Section
- Plug 'dracula/vim'
- Plug 'vim-airline/vim-airline' 
- Plug 'vim-airline/vim-airline-themes'
+ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+ Plug 'junegunn/fzf.vim'
+ Plug 'tpope/vim-commentary'
+ Plug 'preservim/tagbar'
  Plug 'ryanoasis/vim-devicons'
- Plug 'honza/vim-snippets'
- Plug 'scrooloose/nerdtree'
  Plug 'preservim/nerdcommenter'
  Plug 'mhinz/vim-startify'
- Plug 'kyazdani42/nvim-web-devicons'
- Plug 'romgrk/barbar.nvim'
- " Plug 'neoclide/coc.nvim', {'branch': 'release'}
+ Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
+ Plug 'ms-jpq/coq.artifacts', {'branch': 'artifacts'}
+ Plug 'ms-jpq/coq.thirdparty', {'branch': '3p'}
+ "Plug 'kyazdani42/nvim-web-devicons'
+ "Plug 'romgrk/barbar.nvim'
+ "Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 
 if (has("termguicolors"))
@@ -45,7 +47,6 @@ if (has("termguicolors"))
 endif
 syntax enable
 
-colorscheme dracula
 
 " BarBar settings
 let bufferline = get(g:, 'bufferline', {})
@@ -103,10 +104,6 @@ let bufferline.letters =
 " where X is the buffer number. But only a static string is accepted here.
 let bufferline.no_name_title = v:null
 
-" Airline settings
-let g:airline#extensions#tabline#enabled = 0
-let g:airline_statusline_ontop=0
-
 " Move to previous/next
 nnoremap <silent>    <Cmd>bp<CR> <Cmd>BufferPrevious<CR>
 nnoremap <silent>    ≤ <Cmd>BufferPrevious<CR>
@@ -137,6 +134,10 @@ nnoremap <silent> <Space>bb <Cmd>BufferOrderByBufferNumber<CR>
 nnoremap <silent> <Space>bd <Cmd>BufferOrderByDirectory<CR>
 nnoremap <silent> <Space>bl <Cmd>BufferOrderByLanguage<CR>
 nnoremap <silent> <Space>bw <Cmd>BufferOrderByWindowNumber<CR>
+
+nnoremap <silent> <Leader>tt <Cmd>ToggleTerm<CR>
+
+nmap <Leader>bb :TagbarToggle<CR>
 
 " Other:
 " :BarbarEnable - enables barbar (enabled by default)
